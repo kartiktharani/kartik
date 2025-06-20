@@ -1,0 +1,16 @@
+#font{
+    font-weight: bold;
+    margin-left: 150px;
+    text-align: center;
+}
+#image{
+    height: 50px;
+    width: auto;
+}
+#nav{
+    background-color: #a79a6c
+(255,201,0);
+}
+#im{
+   height: 500px;
+}
