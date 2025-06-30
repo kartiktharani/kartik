@@ -140,20 +140,6 @@
   .footer-col form button {
     margin: 10px 0 0 0;
   }
-table {
-  width: 100%;
-  border-collapse: collapse; 
-}
-
-th, td {
-  border: 1px solid black;
-  padding: 8px; 
-  text-align: left; 
-}
-
-th {
-  background-color: #f2f2f2; 
-}
 
 
 </style>
@@ -173,8 +159,8 @@ th {
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#Area">Area</a></li>
-            <li><a class="dropdown-item" href="#">Length</a></li>
-             <li><a class="dropdown-item" href="#">Volume</a></li>
+            <li><a class="dropdown-item" href="#Length">Length</a></li>
+             <li><a class="dropdown-item" href="#Volume">Volume</a></li>
               <li><a class="dropdown-item" href="#">Mass</a></li>
                <li><a class="dropdown-item" href="#">Temperature</a></li>
                 <li><a class="dropdown-item" href="#">Currency</a></li>
@@ -199,42 +185,258 @@ th {
       <img src="jayasahan-hansana-2ENBO_YgndM-unsplash.jpg" alt="" srcset="" id="im">
     </div>
   </div>
-  <section id="Area">
-  <h2 id="Chart">Area Conversion</h2>
-<table>
-    <tr><th>From</th><th>To</th><th>Multiply By</th></tr>
-    <tr><td> Inches</td><td> Millimeters</td><td>25.4</td></tr>
-    <tr><td>Feet</td><td> Meters</td><td>0.3048</td></tr>
-    <tr><td> Yards</td><td> Meters</td><td>0.9144</td></tr>
-    <tr><td> Miles</td><td> Kilometers</td><td>1.60934</td></tr>
-  </table>
-  <h1>Area Converter</h1>
-
-  <div class="form-group">
-    <label for="areaValue">Enter Area Value:</label>
-    <input type="number" id="areaValue" placeholder="e.g. 100">
+  <section id="Length">
+ <div class="container">
+  <div class="row">
+    <div class="col-12">
+       <h2 class="text-center mt-3 ">Length Conversion</h2>
+    </div>
   </div>
+ </div>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover text-center">
+    <thead class="table-light text-primary">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Multiply By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inches</td>
+        <td>Millimeters</td>
+        <td>25.4</td>
+      </tr>
+      <tr>
+        <td>Feet</td>
+        <td>Meters</td>
+        <td>0.3048</td>
+      </tr>
+      <tr>
+        <td>Yards</td>
+        <td>Meters</td>
+        <td>0.9144</td>
+      </tr>
+      <tr>
+        <td>Miles</td>
+        <td>Kilometers</td>
+        <td>1.60934</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <div class="container">
+    <div class="row">
+<div class="col-12">
+  <h1 class="text-center">Length Converter</h1>
+</div>
 
+    </div>
+  </div>
+<div class="container mx-auto p-5"> 
+  <div class="row"> 
+    <div class="col-5">
   <div class="form-group">
+    <label for="lengthValue">Enter Length Value:</label>
+    <input type="number" class="form-control" id="lengthValue" placeholder="e.g. 100">
+  </div>
+  </div>
+</div>
+</div>
+<div class="container mx-auto p-5"> 
+  <div class="row"> 
+    <div class="col-6">
+  <div class="form-group">
+    <label for="fromLength">From Unit:</label>
+    <select id="fromLength" class="form-select">
+      <option value="inch">Inches</option>
+      <option value="foot">Feet</option>
+      <option value="yard">Yards</option>
+      <option value="mile">Miles</option>
+    </select>
+  </div>
+    </div>
+  </div></div>
+<div class="container justify-content-center p-5"> 
+  <div class="row"> 
+    <div class="col-6">
+  <div class="form-group">
+    <label for="toLength">To Unit:</label>
+    <select id="toLength" class="form-select">
+      <option value="mm">Millimeters</option>
+      <option value="m">Meters</option>
+      <option value="km">Kilometers</option>
+    </select>
+  </div>
+    </div></div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <button onclick="convertLength()" class="btn btn-success">Convert</button>
+</div>
+
+  <table id="lengthTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Input Value</th>
+        <th>From Unit</th>
+        <th>To Unit</th>
+        <th>Converted Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="lengthResultRow"></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const lengthFactors = {
+      inch: { mm: 25.4 },
+      foot: { m: 0.3048 },
+      yard: { m: 0.9144 },
+      mile: { km: 1.60934 }
+    };
+
+    const lengthUnitNames = {
+      inch: "Inches",
+      foot: "Feet",
+      yard: "Yards",
+      mile: "Miles",
+      mm: "Millimeters",
+      m: "Meters",
+      km: "Kilometers"
+    };
+
+    function convertLength() {
+      const value = parseFloat(document.getElementById("lengthValue").value);
+      const from = document.getElementById("fromLength").value;
+      const to = document.getElementById("toLength").value;
+
+      if (!value || value <= 0) {
+        alert("Please enter a valid number greater than 0.");
+        return;
+      }
+
+      const factor = lengthFactors[from] && lengthFactors[from][to];
+
+      if (!factor) {
+        alert("This conversion is not supported.");
+        return;
+      }
+
+      const result = value * factor;
+      document.getElementById("lengthTable").style.display = "table";
+      document.getElementById("lengthResultRow").innerHTML = `
+        <td>${value}</td>
+        <td>${lengthUnitNames[from]}</td>
+        <td>${lengthUnitNames[to]}</td>
+        <td>${result.toFixed(4)}</td>
+      `;
+    }
+  </script>
+
+      <section id="Area">
+ <div class="container">
+  <div class="row">
+    <div class="col-12">
+       <h2 class="text-center mt-5">Area Conversion</h2>
+    </div>
+  </div>
+ </div>
+  <div class="table-responsive">
+  <table class="table table-bordered text-center">
+    <thead class="table-light text-primary text-center">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Multiply By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Square Inches</td>
+        <td>Square Millimeters</td>
+        <td>645.16</td>
+      </tr>
+      <tr>
+        <td>Square Feet</td>
+        <td>Square Meters</td>
+        <td>0.092903</td>
+      </tr>
+      <tr>
+        <td>Square Yards</td>
+        <td>Square Meters</td>
+        <td>0.836127</td>
+      </tr>
+      <tr>
+        <td>Acres</td>
+        <td>Hectares</td>
+        <td>0.4047</td>
+      </tr>
+      <tr>
+        <td>Square Miles</td>
+        <td>Square Kilometers</td>
+        <td>2.58999</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</section>
+  <h1>Area Converter</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+<div class="form-group">
+    <label for="areaValue">Enter Area Value:</label>
+    <br><br>
+    <input type="number" id="areaValue"  class="form-control" placeholder="e.g. 100">
+  </div>
+    </div>
+  </div>
+</div>
+<br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+<div class="form-group">
     <label for="fromUnit">From Unit:</label>
-    <select id="fromUnit">
+    <br><br>
+    <select id="fromUnit" class="form-select">
       <option value="sqin">Square Inches</option>
       <option value="sqft">Square Feet</option>
       <option value="sqyd">Square Yards</option>
       <option value="sqmi">Square Miles</option>
+      <option value="acre">Acres</option>
     </select>
   </div>
+      </div>
+    </div>
+  </div>
+<br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+    <label for="toUnit">To Unit:</label><br><br>
 
-  <div class="form-group">
-    <label for="toUnit">To Unit:</label>
-    <select id="toUnit">
+    <select id="toUnit" class="form-select">
       <option value="sqmm">Square Millimeters</option>
       <option value="sqm">Square Meters</option>
       <option value="sqkm">Square Kilometers</option>
+      <option value="hectare">Hectares</option>
     </select>
   </div>
 
-  <button onclick="convertArea()">Convert</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+ <div class="d-flex justify-content-center mt-4">
+  <button onclick="convertArea()" class="btn btn-success">Convert</button>
+</div>
 
   <table id="conversionTable" style="display:none;">
     <thead>
@@ -295,7 +497,229 @@ th {
         <td>${result.toFixed(4)}</td>
       `;
     }
+
 </script>
+      <section id="Volume">
+  <h2>Volume Conversion</h2>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Multiply By</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inches</td>
+        <td>Millimeters</td>
+        <td>25.4</td>
+      </tr>
+      <tr>
+        <td>Feet</td>
+        <td>Meters</td>
+        <td>0.3048</td>
+      </tr>
+      <tr>
+        <td>Yards</td>
+        <td>Meters</td>
+        <td>0.9144</td>
+      </tr>
+      <tr>
+        <td>Miles</td>
+        <td>Kilometers</td>
+        <td>1.60934</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  <!-- <div class="form-group">
+    <label for="volumeValue">Enter Volume Value:</label>
+    <input type="number" id="volumeValue" placeholder="e.g. 50">
+  </div>
+
+  <div class="form-group">
+    <label for="fromVolume">From Unit:</label>
+    <select id="fromVolume">
+      <option value="fl_oz">Fluid Ounces</option>
+      <option value="gallon">Gallons</option>
+      <option value="cu_ft">Cubic Feet</option>
+      <option value="cu_yd">Cubic Yards</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="toVolume">To Unit:</label>
+    <select id="toVolume">
+      <option value="ml">Milliliters</option>
+      <option value="l">Liters</option>
+      <option value="m3">Cubic Meters</option>
+    </select>
+  </div>
+
+  <button onclick="convertVolume()">Convert</button>
+
+  <table id="volumeTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Input Value</th>
+        <th>From Unit</th>
+        <th>To Unit</th>
+        <th>Converted Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="volumeResultRow"></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const volumeFactors = {
+      fl_oz: { ml: 29.5735 },
+      gallon: { l: 3.78541 },
+      cu_ft: { m3: 0.0283168 },
+      cu_yd: { m3: 0.764555 }
+    };
+
+    const volumeUnitNames = {
+      fl_oz: "Fluid Ounces",
+      gallon: "Gallons",
+      cu_ft: "Cubic Feet",
+      cu_yd: "Cubic Yards",
+      ml: "Milliliters",
+      l: "Liters",
+      m3: "Cubic Meters"
+    };
+
+    function convertVolume() {
+      const value = parseFloat(document.getElementById("volumeValue").value);
+      const from = document.getElementById("fromVolume").value;
+      const to = document.getElementById("toVolume").value;
+
+      if (!value || value <= 0) {
+        alert("Please enter a valid number greater than 0.");
+        return;
+      }
+
+      const factor = volumeFactors[from] && volumeFactors[from][to];
+
+      if (!factor) {
+        alert("This conversion is not supported.");
+        return;
+      }
+
+      const result = value * factor;
+      document.getElementById("volumeTable").style.display = "table";
+      document.getElementById("volumeResultRow").innerHTML = `
+        <td>${value}</td>
+        <td>${volumeUnitNames[from]}</td>
+        <td>${volumeUnitNames[to]}</td>
+        <td>${result.toFixed(4)}</td>
+      `;
+    }
+  </script> -->
+
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">Volume Converter</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label for="volumeValue" class="form-label">Enter Volume Value:</label>
+        <input type="number" id="volumeValue" class="form-control" placeholder="e.g. 50">
+      </div>
+
+      <div class="col-md-4">
+        <label for="fromVolume" class="form-label">From Unit:</label>
+        <select id="fromVolume" class="form-select">
+          <option value="fl_oz">Fluid Ounces</option>
+          <option value="gallon">Gallons</option>
+          <option value="cu_ft">Cubic Feet</option>
+          <option value="cu_yd">Cubic Yards</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label for="toVolume" class="form-label">To Unit:</label>
+        <select id="toVolume" class="form-select">
+          <option value="ml">Milliliters</option>
+          <option value="l">Liters</option>
+          <option value="m3">Cubic Meters</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-4 text-center">
+      <button onclick="convertVolume()" class="btn btn-custom">Convert</button>
+    </div>
+
+    <div class="table-responsive">
+      <table id="volumeTable" class="table table-bordered text-center mt-4" style="display:none;">
+        <thead>
+          <tr>
+            <th>Input Value</th>
+            <th>From Unit</th>
+            <th>To Unit</th>
+            <th>Converted Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="volumeResultRow"></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const volumeFactors = {
+      fl_oz: { ml: 29.5735 },
+      gallon: { l: 3.78541 },
+      cu_ft: { m3: 0.0283168 },
+      cu_yd: { m3: 0.764555 }
+    };
+
+    const volumeUnitNames = {
+      fl_oz: "Fluid Ounces",
+      gallon: "Gallons",
+      cu_ft: "Cubic Feet",
+      cu_yd: "Cubic Yards",
+      ml: "Milliliters",
+      l: "Liters",
+      m3: "Cubic Meters"
+    };
+
+    function convertVolume() {
+      const value = parseFloat(document.getElementById("volumeValue").value);
+      const from = document.getElementById("fromVolume").value;
+      const to = document.getElementById("toVolume").value;
+
+      if (!value || value <= 0) {
+        alert("Please enter a valid number greater than 0.");
+        return;
+      }
+
+      const factor = volumeFactors[from] && volumeFactors[from][to];
+
+      if (!factor) {
+        alert("This conversion is not supported.");
+        return;
+      }
+
+      const result = value * factor;
+      document.getElementById("volumeTable").style.display = "table";
+      document.getElementById("volumeResultRow").innerHTML = `
+        <td>${value}</td>
+        <td>${volumeUnitNames[from]}</td>
+        <td>${volumeUnitNames[to]}</td>
+        <td>${result.toFixed(4)}</td>
+      `;
+    }
+  </script>
+
   <section class="footer">
       <div class="footer-row">
         <div class="footer-col">
